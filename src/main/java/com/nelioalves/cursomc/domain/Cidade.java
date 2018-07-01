@@ -25,7 +25,7 @@ public class Cidade implements Serializable{
 	@JoinColumn(name="estado_id")
 	private Estado estado;
 	
-	private Cidade() {		
+	public Cidade() {		
 	}
 
 	public Cidade(Integer id, String nome, Estado estado) {
