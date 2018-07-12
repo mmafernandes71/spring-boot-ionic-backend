@@ -1,7 +1,6 @@
 package com.nelioalves.cursomc.services;
 
 
-import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -136,6 +135,17 @@ public class ClienteService {
 
 
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		URI uri = s3Service.uploadFile(multipartFile);
+		
+		Cliente cli = find(user.getId());
+		cli.setImageUrl(uri.toString());
+		update(cli);
 
 		return s3Service.uploadFile(multipartFile);
 	}
